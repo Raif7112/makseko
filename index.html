@@ -304,24 +304,29 @@
     </div>
 
     <script>
-        const defaultMenu = [];
-
+        let menuItems = [];
         let currentCategory = 'الكل';
 
-        function getMenuItems() {
-            const saved = localStorage.getItem('mexicano_menu');
-            if (saved) return JSON.parse(saved);
-            localStorage.setItem('mexicano_menu', JSON.stringify(defaultMenu));
-            return defaultMenu;
+        // جلب الوجبات من ملف menu.json
+        async function loadMenu() {
+            const grid = document.getElementById('menuGrid');
+            try {
+                const response = await fetch('menu.json');
+                if (!response.ok) throw new Error('تعذر تحميل القائمة');
+                menuItems = await response.json();
+                renderMenu();
+            } catch (error) {
+                console.error('Error loading menu:', error);
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">عذراً، حدث خطأ أثناء تحميل المنيو.</div>`;
+            }
         }
 
         function renderMenu() {
-            const items = getMenuItems();
             const grid = document.getElementById('menuGrid');
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
             grid.innerHTML = '';
 
-            const filtered = items.filter(item => {
+            const filtered = menuItems.filter(item => {
                 const matchCat = (currentCategory === 'الكل' || item.cat === currentCategory);
                 const matchSearch = item.name.toLowerCase().includes(searchVal) || (item.desc && item.desc.toLowerCase().includes(searchVal));
                 return matchCat && matchSearch;
@@ -364,10 +369,8 @@
         function openPhoneModal() { document.getElementById('phoneModal').style.display = 'flex'; }
         function closePhoneModal() { document.getElementById('phoneModal').style.display = 'none'; }
 
-        // التحديث التلقائي إذا قام الأدمن بتحديث المنيو في تبويب آخر
-        window.addEventListener('storage', renderMenu);
-
-        renderMenu();
+        // بدء تحميل المنيو عند فتح الصفحة
+        loadMenu();
     </script>
 </body>
 </html>
