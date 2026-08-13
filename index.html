@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكسيكانو للمشاوي والوجبات السريعة | Mexicano Grill</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Tajawal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #d97706;
+            --accent: #dc2626;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --green: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
+                        url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1000&q=80') center/cover;
+            text-align: center;
+            padding: 40px 20px 30px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .logo-badge {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
+            font-size: 2.2rem;
+            color: #fff;
+            border: 3px solid #ffffff22;
+        }
+
+        .hero h1 { font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
+        .hero p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(22, 163, 74, 0.2);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            scrollbar-width: none;
+        }
+        .category-nav::-webkit-scrollbar { display: none; }
+
+        .cat-btn {
+            background: #334155;
+            color: var(--text-muted);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cat-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        .search-box { position: relative; margin-bottom: 20px; }
+        .search-box input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px 45px 12px 15px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .card-img { width: 100%; height: 160px; object-fit: cover; background: #334155; }
+        .card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; color: #fff; }
+        .card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; flex-grow: 1; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px dashed var(--border); }
+        .price-tag { font-size: 1.2rem; font-weight: 900; color: #f59e0b; }
+
+        .order-btn {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .bar-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            gap: 4px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        .bar-btn i { font-size: 1.3rem; }
+        .bar-btn.active { color: var(--primary); }
+
+        .phone-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2500;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phone-modal-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 350px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .phone-number-box {
+            background: #0f172a;
+            border: 2px dashed var(--primary);
+            color: #f59e0b;
+            font-size: 1.4rem;
+            font-weight: 900;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            direction: ltr;
+        }
+
+        .phone-actions { display: flex; gap: 10px; }
+        .phone-btn {
+            flex: 1; padding: 10px; border-radius: 8px; font-weight: 700;
+            border: none; cursor: pointer; text-decoration: none; display: inline-block; font-size: 0.9rem;
+        }
+        .phone-btn.call { background: #16a34a; color: white; }
+        .phone-btn.close { background: #334155; color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="hero">
+        <div class="logo-badge"><i class="fa-solid fa-fire-burner"></i></div>
+        <h1>مكسيكانو MEXICANO</h1>
+        <p>أطيب المشاوي والوجبات السريعة في صبراتة 🌶️🔥</p>
+        <div class="status-badge"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> المحل مفتوح واستقبال الطلبات شغال</div>
+    </header>
+
+    <!-- Nav Tabs -->
+    <nav class="category-nav">
+        <button class="cat-btn active" onclick="filterCategory('الكل', this)">🔥 الكل</button>
+        <button class="cat-btn" onclick="filterCategory('مشاوي', this)">🥩 مشاوي</button>
+        <button class="cat-btn" onclick="filterCategory('سندويشات', this)">🍔 سندويشات</button>
+        <button class="cat-btn" onclick="filterCategory('وجبات', this)">🍱 وجبات كاملة</button>
+        <button class="cat-btn" onclick="filterCategory('مقبلات ومشروبات', this)">🍟 مقبلات ومشروبات</button>
+    </nav>
+
+    <!-- Container -->
+    <main class="container">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن وجبة..." oninput="searchItems()">
+        </div>
+
+        <div class="menu-grid" id="menuGrid"></div>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-bar">
+        <button class="bar-btn active">
+            <i class="fa-solid fa-utensils"></i>
+            <span>المنيو</span>
+        </button>
+        <a href="https://wa.me/218911738739?text=السلام%20عليكم%20حاب%20نطلب%20من%20مطعم%20مكسيكانو" target="_blank" class="bar-btn">
+            <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i>
+            <span>طلب واتساب</span>
+        </a>
+        <button class="bar-btn" onclick="openPhoneModal()">
+            <i class="fa-solid fa-phone" style="color: #3b82f6;"></i>
+            <span>اتصال مباشر</span>
+        </button>
+    </div>
+
+    <!-- Phone Modal -->
+    <div class="phone-modal" id="phoneModal">
+        <div class="phone-modal-content">
+            <i class="fa-solid fa-headset" style="font-size: 2.5rem; color: var(--primary);"></i>
+            <h3 style="margin-top: 10px;">رقم هاتف المحل</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">يمكنك الاتصال مباشرة:</p>
+            <div class="phone-number-box">091-1738739</div>
+            <div class="phone-actions">
+                <a href="tel:0911738739" class="phone-btn call"><i class="fa-solid fa-phone"></i> اتصل الآن</a>
+                <button onclick="closePhoneModal()" class="phone-btn close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaultMenu = [];
+
+        let currentCategory = 'الكل';
+
+        function getMenuItems() {
+            const saved = localStorage.getItem('mexicano_menu');
+            if (saved) return JSON.parse(saved);
+            localStorage.setItem('mexicano_menu', JSON.stringify(defaultMenu));
+            return defaultMenu;
+        }
+
+        function renderMenu() {
+            const items = getMenuItems();
+            const grid = document.getElementById('menuGrid');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            grid.innerHTML = '';
+
+            const filtered = items.filter(item => {
+                const matchCat = (currentCategory === 'الكل' || item.cat === currentCategory);
+                const matchSearch = item.name.toLowerCase().includes(searchVal) || (item.desc && item.desc.toLowerCase().includes(searchVal));
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">لا توجد وجبات متوفرة حالياً</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const defaultImg = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80";
+                const card = document.createElement('div');
+                card.className = 'menu-card';
+                card.innerHTML = `
+                    <img src="${item.img || defaultImg}" class="card-img" alt="${item.name}" onerror="this.src='${defaultImg}'">
+                    <div class="card-body">
+                        <div class="card-title"><span>${item.name}</span></div>
+                        <p class="card-desc">${item.desc || ''}</p>
+                        <div class="card-footer">
+                            <span class="price-tag">${item.price} د.ل</span>
+                            <a href="https://wa.me/218911738739?text=${encodeURIComponent('السلام عليكم، حاب نطلب وجبة: ' + item.name + ' (بسعر ' + item.price + ' د.ل)')}" target="_blank" class="order-btn">
+                                <i class="fa-brands fa-whatsapp"></i> أطلب الآن
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderMenu();
+        }
+
+        function searchItems() { renderMenu(); }
+        function openPhoneModal() { document.getElementById('phoneModal').style.display = 'flex'; }
+        function closePhoneModal() { document.getElementById('phoneModal').style.display = 'none'; }
+
+        // التحديث التلقائي إذا قام الأدمن بتحديث المنيو في تبويب آخر
+        window.addEventListener('storage', renderMenu);
+
+        renderMenu();
+    </script>
+</body>
+</html>
